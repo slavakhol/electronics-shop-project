@@ -36,3 +36,9 @@ def test_string_to_number():
     assert Item.string_to_number('10') == 10
     assert Item.string_to_number('11.789') == 11
     assert Item.string_to_number('ten') == 'Некорректный формат'
+
+def test__repr__(item_cover):
+    assert repr(item_cover) == "Item('Чехол', 100, 10)"
+
+def test__str__(item_cover):
+    assert str(item_cover) == "Чехол"
