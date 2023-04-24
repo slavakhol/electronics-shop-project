@@ -28,6 +28,18 @@ def test_instantiate_from_csv():
     assert Item.all[-2].price == 50
     assert Item.all[-2].name == 'Мышка'
 
+def test_instantiate_from_csv(capsys):
+    Item.file = "missing.csv"
+    Item.instantiate_from_csv()
+    captured = capsys.readouterr()
+    assert captured.out == "Отсутствует файл items.csv\n"
+
+def test_instantiate_from_csv(capsys):
+    Item.file = "../tests/corrupted.csv"
+    Item.instantiate_from_csv()
+    captured = capsys.readouterr()
+    assert captured.out == "Файл items.csv поврежден\n"
+
 def test_name_setter(item_cover):
     item_cover.name = 'Alice'
     assert item_cover.name == 'Alice'

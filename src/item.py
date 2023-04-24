@@ -8,6 +8,7 @@ class Item:
     """
     pay_rate = 1.0
     all = []
+    file = '../src/items.csv'
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -43,7 +44,7 @@ class Item:
     def instantiate_from_csv(cls):
 
         try:
-            with open('../src/items.csv', 'r', encoding='cp1251') as csv_file:
+            with open(Item.file, 'r', encoding='cp1251') as csv_file:
                 reader = csv.DictReader(csv_file)
                 next(reader)
                 expected_cols = ['name', 'price', 'quantity']
@@ -51,10 +52,13 @@ class Item:
                     for row in reader:
                         Item(row['name'], float(row['price']), int(row['quantity']))
                 else:
-                    raise InstantiateCSVError("Файл items.csv поврежден")
+                    raise InstantiateCSVError
+        except InstantiateCSVError:
+            print("Файл items.csv поврежден")
 
         except FileNotFoundError:
             print("Отсутствует файл items.csv")
+
 
 
     @staticmethod
