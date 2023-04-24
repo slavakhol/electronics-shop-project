@@ -1,4 +1,7 @@
 import csv
+
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -37,12 +40,23 @@ class Item:
             raise Exception("Имя больше 10 символов")
 
     @classmethod
-    def instantiate_from_csv(cls, file):
-        with open(file, 'r', encoding='cp1251') as csv_file:
-            reader = csv.DictReader(csv_file)
-            next(reader)
-            for row in reader:
-                Item(row['name'], float(row['price']), int(row['quantity']))
+    def instantiate_from_csv(cls):
+
+        try:
+            with open('../src/items.csv', 'r', encoding='cp1251') as csv_file:
+                reader = csv.DictReader(csv_file)
+                next(reader)
+                expected_cols = ['name', 'price', 'quantity']
+                if reader.fieldnames == expected_cols:
+                    for row in reader:
+                        Item(row['name'], float(row['price']), int(row['quantity']))
+                else:
+                    raise InstantiateCSVError("Файл items.csv поврежден")
+
+        except FileNotFoundError:
+            print("Отсутствует файл items.csv")
+
+
     @staticmethod
     def string_to_number(string):
         try:
@@ -67,3 +81,6 @@ class Item:
         if not isinstance(other, Item):
             raise ValueError('Складывать можно только объекты Item и дочерние от них.')
         return self.quantity + other.quantity
+
+class InstantiateCSVError(Exception):
+    pass

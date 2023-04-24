@@ -23,10 +23,10 @@ def test_apply_discount(item_cover):
 
 
 def test_instantiate_from_csv():
-    Item.instantiate_from_csv('../src/test_items.csv')
-    assert Item.all[-1].name == 'Подставка'
-    assert Item.all[-2].price == 2
-    assert Item.all[-2].name == 'Сумка'
+    Item.instantiate_from_csv()
+    assert Item.all[-1].name == 'Клавиатура'
+    assert Item.all[-2].price == 50
+    assert Item.all[-2].name == 'Мышка'
 
 def test_name_setter(item_cover):
     item_cover.name = 'Alice'
